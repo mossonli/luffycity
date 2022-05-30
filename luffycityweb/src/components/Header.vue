@@ -88,6 +88,7 @@
 }
 .header .content .logo img {
   vertical-align: middle;
+  width: 240px;
   margin: -40px;
 }
 .header .nav li {
