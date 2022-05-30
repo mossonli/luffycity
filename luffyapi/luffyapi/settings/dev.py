@@ -15,6 +15,7 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(BASE_DIR / "apps"))
+sys.path.insert(0, str( BASE_DIR / "utils"))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
@@ -25,7 +26,7 @@ SECRET_KEY = 'django-insecure-*&0gid*en&=%!deopr4ey)1df1s6jv0u0+=)h34x$wn17qg91=
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 # Application definition
 
@@ -39,6 +40,8 @@ INSTALLED_APPS = [
 
     "rest_framework",
     "corsheaders",  # cors跨域子应用 跨域配置1
+
+    "home",
 ]
 
 MIDDLEWARE = [
@@ -239,5 +242,5 @@ LOGGING = {
 # drf配置
 REST_FRAMEWORK = {
     # 自定义异常处理
-    'EXCEPTION_HANDLER': 'luffycityapi.utils.exceptions.custom_exception_handler',
+    'EXCEPTION_HANDLER': 'luffyapi.utils.exceptions.custom_exception_handler',
 }
