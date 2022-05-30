@@ -38,11 +38,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     "rest_framework",
-    "corsheaders",  # cors跨域子应用
+    "corsheaders",  # cors跨域子应用 跨域配置1
 ]
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',  # cors跨域的中间件，必须放在CommonMiddleware前
+    'corsheaders.middleware.CorsMiddleware',  # cors跨域的中间件，必须放在CommonMiddleware前 跨域配置2
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -51,7 +51,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-
+# 跨域配置3
 CORS_ALLOW_ALL_ORIGINS = True
 
 ROOT_URLCONF = 'luffyapi.urls'
