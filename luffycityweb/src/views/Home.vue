@@ -2,6 +2,9 @@
   <h1>首页</h1>
   <div class="home">
     <Header></Header>
+    <div class="" id="main">
+      <Banner></Banner>
+    </div>
     <Footer></Footer>
   </div>
 </template>
@@ -9,6 +12,7 @@
 <script setup>
 import Header from '../components/Header.vue';
 import Footer from '../components/Footer.vue';
+import Banner from '../components/Banner.vue';
 
 // 测试CORS的跨域配置是否有问题
 import axios from 'axios';
