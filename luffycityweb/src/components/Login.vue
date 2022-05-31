@@ -68,7 +68,15 @@ const loginhandler = () => {
   user
     .login()
     .then((response) => {
-      console.log(response.data);
+      localStorage.removeItem('token');
+      sessionStorage.removeItem('token');
+      if (user.remember) {
+        // 记住登录状态
+        localStorage.token = response.data.token;
+      } else {
+        // 不记住登录状态
+        sessionStorage.token = response.data.token;
+      }
       ElMessage.success('登录成功！');
     })
     .catch((error) => {
