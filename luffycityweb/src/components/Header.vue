@@ -52,7 +52,7 @@
     </div>
   </div>
   <el-dialog :width="600" v-model="state.show_login">
-    <Login></Login>
+    <Login @successhandle="login_success"></Login>
   </el-dialog>
 </template>
 
@@ -69,6 +69,11 @@ const state = reactive({
 nav.get_header_nav().then((response) => {
   nav.header_nav_list = response.data;
 });
+
+// 用户登录成功以后的处理
+const login_success = (token) => {
+  state.show_login = false;
+};
 </script>
 
 <style scoped>

@@ -53,6 +53,7 @@
 <script setup>
 import user from '../api/user';
 import { ElMessage } from 'element-plus';
+const emit = defineEmits(['successhandle']);
 
 // 登录处理
 const loginhandler = () => {
@@ -78,6 +79,13 @@ const loginhandler = () => {
         sessionStorage.token = response.data.token;
       }
       ElMessage.success('登录成功！');
+      // 关闭登录弹窗，对外发送一个登录成功的信息
+      user.account = '';
+      user.password = '';
+      user.mobile = '';
+      user.code = '';
+      user.remember = false;
+      emit('successhandle');
     })
     .catch((error) => {
       ElMessage.error('登录失败！');
