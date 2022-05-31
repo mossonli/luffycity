@@ -6,6 +6,11 @@ from rest_framework.generics import ListAPIView
 from .models import Nav, Banner
 from .serializers import NavModelSerializer, BannerModelSerializer
 
+"""
+注意 如果要使用视图缓存
+继承一下 utils里面的view_cache里面的类
+"""
+
 
 class NavHeaderListAPIView(ListAPIView):
     """顶部导航视图"""
