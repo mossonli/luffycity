@@ -15,7 +15,7 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(BASE_DIR / "apps"))
-sys.path.insert(0, str( BASE_DIR / "utils"))
+sys.path.insert(0, str(BASE_DIR / "utils"))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     "rest_framework",
+    "rest_framework_simplejwt",
     "corsheaders",  # cors跨域子应用 跨域配置1
 
     "home",
@@ -254,8 +255,25 @@ LOGGING = {
 REST_FRAMEWORK = {
     # 自定义异常处理
     'EXCEPTION_HANDLER': 'luffyapi.utils.exceptions.custom_exception_handler',
+    # # 自定义认证   rest_framework_jwt 不在维护 换成 djangorestframework-simplejwt
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ),
+
 }
 
 # 告诉的django 系统认证相关的功能，采用我们自定义的用户模型类
 # 格式 AUTH_USER_MODEL= "子应用目录名.模型类"
 AUTH_USER_MODEL = 'users.User'
+
+import datetime
+
+# jwt认证相关配置项
+JWT_AUTH = {
+    # 设置jwt的有效期
+    # 如果内部站点，例如：运维开发系统，OA，往往配置的access_token有效期基本就是15分钟，30分钟，1~2个小时
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(weeks=1),  # 一周有效，
+}
+
