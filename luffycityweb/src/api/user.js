@@ -13,9 +13,9 @@ const user = reactive({
     console.log('denglu');
     return http.post('/users/login', {
       username: this.account,
-      password: this.password,
+      password: this.password
     });
-  },
+  }
 });
 
 export default user;

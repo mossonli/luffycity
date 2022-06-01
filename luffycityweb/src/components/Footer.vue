@@ -14,7 +14,7 @@
 import nav from '../api/nav';
 
 // 获取脚部导航列表
-nav.get_footer_nav().then((response) => {
+nav.get_footer_nav().then(response => {
   nav.footer_nav_list = response.data;
 });
 </script>

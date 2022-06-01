@@ -1,25 +1,11 @@
 <template>
   <div class="title">
-    <span :class="{ active: user.login_type == 0 }" @click="user.login_type = 0"
-      >密码登录</span
-    >
-    <span :class="{ active: user.login_type == 1 }" @click="user.login_type = 1"
-      >短信登录</span
-    >
+    <span :class="{ active: user.login_type == 0 }" @click="user.login_type = 0">密码登录</span>
+    <span :class="{ active: user.login_type == 1 }" @click="user.login_type = 1">短信登录</span>
   </div>
   <div class="inp" v-if="user.login_type == 0">
-    <input
-      v-model="user.account"
-      type="text"
-      placeholder="用户名 / 手机号码"
-      class="user"
-    />
-    <input
-      v-model="user.password"
-      type="password"
-      class="pwd"
-      placeholder="密码"
-    />
+    <input v-model="user.account" type="text" placeholder="用户名 / 手机号码" class="user" />
+    <input v-model="user.password" type="password" class="pwd" placeholder="密码" />
     <div id="geetest1"></div>
     <div class="rember">
       <label>
@@ -29,31 +15,31 @@
       <p>忘记密码</p>
     </div>
     <button class="login_btn" @click="loginhandler">登录</button>
-    <p class="go_login">没有账号 <span>立即注册</span></p>
+    <p class="go_login">
+      没有账号
+      <span>立即注册</span>
+    </p>
   </div>
   <div class="inp" v-show="user.login_type == 1">
-    <input
-      v-model="user.mobile"
-      type="text"
-      placeholder="手机号码"
-      class="user"
-    />
-    <input
-      v-model="user.code"
-      type="text"
-      class="code"
-      placeholder="短信验证码"
-    />
+    <input v-model="user.mobile" type="text" placeholder="手机号码" class="user" />
+    <input v-model="user.code" type="text" class="code" placeholder="短信验证码" />
     <el-button id="get_code" type="primary">获取验证码</el-button>
     <button class="login_btn">登录</button>
-    <p class="go_login">没有账号 <span>立即注册</span></p>
+    <p class="go_login">
+      没有账号
+      <span>立即注册</span>
+    </p>
   </div>
 </template>
 
 <script setup>
 import user from '../api/user';
 import { ElMessage } from 'element-plus';
+import { useStore } from 'vuex';
+
 const emit = defineEmits(['successhandle']);
+
+const store = useStore();
 
 // 登录处理
 const loginhandler = () => {
@@ -68,7 +54,7 @@ const loginhandler = () => {
   // 登录请求处理
   user
     .login()
-    .then((response) => {
+    .then(response => {
       localStorage.removeItem('token');
       sessionStorage.removeItem('token');
       if (user.remember) {
@@ -78,6 +64,7 @@ const loginhandler = () => {
         // 不记住登录状态
         sessionStorage.token = response.data.token;
       }
+      // 成功提示
       ElMessage.success('登录成功！');
       // 关闭登录弹窗，对外发送一个登录成功的信息
       user.account = '';
@@ -85,9 +72,16 @@ const loginhandler = () => {
       user.mobile = '';
       user.code = '';
       user.remember = false;
+
+      // vuex存储用户登录信息，保存token，并根据用户的选择，是否记住密码
+      let payload = response.data.token.split('.')[1]; // 载荷
+      let payload_data = JSON.parse(atob(payload)); // 用户信息
+      console.log(payload_data);
+      store.commit('login', payload_data);
+
       emit('successhandle');
     })
-    .catch((error) => {
+    .catch(error => {
       ElMessage.error('登录失败！');
     });
 };
