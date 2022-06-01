@@ -278,3 +278,6 @@ JWT_AUTH = {
     # 自定义载荷
     'JWT_PAYLOAD_HANDLER': 'luffyapi.utils.authenticate.jwt_payload_handler',
 }
+
+# django自定义认证
+AUTHENTICATION_BACKENDS = ['luffyapi.utils.authenticate.CustomAuthBackend', ]
