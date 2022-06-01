@@ -39,7 +39,7 @@
                   <el-dropdown-item :icon="UserFilled">学习中心</el-dropdown-item>
                   <el-dropdown-item :icon="List">订单列表</el-dropdown-item>
                   <el-dropdown-item :icon="Setting">个人设置</el-dropdown-item>
-                  <el-dropdown-item :icon="Position">注销登录</el-dropdown-item>
+                  <el-dropdown-item :icon="Position" @click="logout">注销登录</el-dropdown-item>
                 </el-dropdown-menu>
               </template>
             </el-dropdown>
@@ -85,6 +85,10 @@ nav.get_header_nav().then(response => {
 // 用户登录成功以后的处理
 const login_success = token => {
   state.show_login = false;
+};
+// 用户注销处理
+const logout = () => {
+  store.commit('logout');
 };
 </script>
 

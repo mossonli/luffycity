@@ -37,6 +37,12 @@ export default createStore({
     // 相当于组件中的methods，用于操作state全局数据
     login(state, payload) {
       state.user = payload; // state.user 就是上面声明的user
+    },
+    logout(state) {
+      // 退出登录
+      state.user = {};
+      localStorage.token = null;
+      sessionStorage.token = null;
     }
   }
 });
