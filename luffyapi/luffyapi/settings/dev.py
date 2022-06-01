@@ -281,3 +281,18 @@ JWT_AUTH = {
 
 # django自定义认证
 AUTHENTICATION_BACKENDS = ['luffyapi.utils.authenticate.CustomAuthBackend', ]
+
+# 腾讯云API接口配置
+TENCENTCLOUD = {
+    # 腾讯云访问秘钥ID
+    "SecretId": "AKIDSggmeI7z2qSUHoaf18zb4JKdZv61PEZf",
+    # 腾讯云访问秘钥key
+    "SecretKey": "06xbzB7VabOyY3asztbkdIfqlovtLYXG",
+    # 验证码API配置
+    "Captcha": {
+        "endpoint": "captcha.tencentcloudapi.com", # 验证码校验服务端域名
+        "CaptchaType": 9,  # 验证码类型，固定为9
+        "CaptchaAppId": 2059674751,  # 验证码应用ID
+        "AppSecretKey": "04LwtDUlnQxumWnItAw4OPA**", # 验证码应用key
+    },
+}
