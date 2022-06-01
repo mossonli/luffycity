@@ -14,7 +14,7 @@
       </label>
       <p>忘记密码</p>
     </div>
-    <button class="login_btn" @click="loginhandler">登录</button>
+    <button class="login_btn" @click="show_captcha">登录</button>
     <p class="go_login">
       没有账号
       <span>立即注册</span>
@@ -36,13 +36,29 @@
 import user from '../api/user';
 import { ElMessage } from 'element-plus';
 import { useStore } from 'vuex';
+import '../utils/TCaptcha';
 
 const emit = defineEmits(['successhandle']);
 
 const store = useStore();
 
+// 显示验证码
+const show_captcha = () => {
+  var captcha1 = new TencentCaptcha('2059674751', res => {
+    // 接收验证结果的回调函数
+    /* res（验证成功） = {ret: 0, ticket: "String", randstr: "String"}
+         res（客户端出现异常错误 仍返回可用票据） = {ret: 0, ticket: "String", randstr: "String", errorCode: Number, errorMessage: "String"}
+         res（用户主动关闭验证码）= {ret: 2}
+      */
+    console.log(res);
+    // 调用登录处理
+    loginhandler(res);
+  });
+  captcha1.show(); // 显示验证码
+};
+
 // 登录处理
-const loginhandler = () => {
+const loginhandler = res => {
   // 验证数据
   if (user.account.length < 1 || user.password.length < 1) {
     // 错误提示
@@ -53,7 +69,10 @@ const loginhandler = () => {
 
   // 登录请求处理
   user
-    .login()
+    .login({
+      ticket: res.ticket,
+      randstr: res.randstr
+    })
     .then(response => {
       localStorage.removeItem('token');
       sessionStorage.removeItem('token');

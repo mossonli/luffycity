@@ -8,10 +8,14 @@ const user = reactive({
   remember: false, // 是否记住登录状态
   mobile: '', // 登录手机号码
   code: '', // 短信验证码
-  login() {
+  login(res) {
     // 用户登录
     console.log('denglu');
     return http.post('/users/login', {
+      // 滑动验证码的参数
+      ticket: res.ticket,
+      randstr: res.randstr,
+      //
       username: this.account,
       password: this.password
     });
