@@ -27,7 +27,7 @@
     <button class="login_btn">登录</button>
     <p class="go_login">
       没有账号
-      <span>立即注册</span>
+      <router-link to="/register">立即注册</router-link>
     </p>
   </div>
 </template>

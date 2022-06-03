@@ -54,7 +54,7 @@
           <div class="login-box full-left">
             <span @click="state.show_login = true">登录</span>
             &nbsp;/&nbsp;
-            <span>注册</span>
+            <span to="/register">注册</span>
           </div>
         </div>
       </div>

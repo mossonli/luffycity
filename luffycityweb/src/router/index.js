@@ -23,6 +23,15 @@ const routes = [
   },
   {
     meta: {
+      title: 'luffy2.0-用户注册',
+      keepAlive: true
+    },
+    path: '/register',
+    name: 'Register', // 路由名称
+    component: () => import('../views/Register.vue') // uri绑定的组件页面
+  },
+  {
+    meta: {
       title: 'luffy2.0-个人中心',
       keepAlive: true,
       authorization: true
