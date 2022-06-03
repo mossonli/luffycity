@@ -2,9 +2,11 @@ from rest_framework_jwt.views import ObtainJSONWebToken
 from luffyapi.utils.tencentcloudapi import TencentCloudAPI, TencentCloudSDKException
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.generics import CreateAPIView
 from rest_framework import status
 
 from .models import User
+from .serializers import UserRegisterModelSerializer
 
 
 # Create your views here.
@@ -46,3 +48,8 @@ class MobileAPIView(APIView):
         except User.DoesNotExist:
             # 如果查不到该手机号的注册记录，则证明手机号可以注册使用
             return Response({"errmsg": "OK"}, status=status.HTTP_200_OK)
+
+
+class UserAPIView(CreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserRegisterModelSerializer
