@@ -296,3 +296,13 @@ TENCENTCLOUD = {
         "AppSecretKey": "04LwtDUlnQxumWnItAw4OPA**", # 验证码应用key
     },
 }
+
+# 容联云短信
+RONGLIANYUN = {
+    "accId": '8a216da8701eb7c101703d8f208c0c7b',
+    "accToken": '59db381a86c94013b3992f35948c9df1',
+    "appId": '8a216da8701eb7c101703d8f20ea0c81',
+    "reg_tid": 1,      # 注册短信验证码的模板ID
+    "sms_expire": 300, # 短信有效期，单位：秒(s)
+    "sms_interval": 60,# 短信发送的冷却时间，单位：秒(s)
+}
