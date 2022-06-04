@@ -130,7 +130,7 @@ CACHES = {
     # 提供存储短信验证码
     "sms_code": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://:123456@127.0.0.1:6379/2",
+        "LOCATION": "redis://:@127.0.0.1:6379/2",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
             "CONNECTION_POOL_KWARGS": {"max_connections": 100},

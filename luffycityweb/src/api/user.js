@@ -8,6 +8,10 @@ const user = reactive({
   remember: false, // 是否记住登录状态
   re_password: '', // 确认密码
   code: '', // 验证码
+  is_send: false, // 是否处于发送冷却的状态中
+  sms_interval: 60, // 短信的冷却时间
+  interval: null, // 记录短信发送冷却状态的定时器，唯一标识符
+  sms_btn_text: '点击获取验证码', // 文本
   login(res) {
     // 用户登录
     console.log('denglu');
