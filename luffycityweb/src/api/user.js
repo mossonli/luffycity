@@ -31,6 +31,9 @@ const user = reactive({
     data.sms_code = this.code;
     // 用户注册请求
     return http.post('/users/register/', data);
+  },
+  get_sms_code() {
+    return http.get(`/users/sms/${this.mobile}/`);
   }
 });
 
