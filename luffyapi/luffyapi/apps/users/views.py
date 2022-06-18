@@ -64,7 +64,8 @@ class UserAPIView(CreateAPIView):
 import random
 from django_redis import get_redis_connection
 from django.conf import settings
-from ronglianyunapi import send_sms
+# from ronglianyunapi import send_sms # 直接使用容联云发短信
+from .tasks import send_sms #通过延迟队列发送短信
 """
 /users/sms/(?P<mobile>1[3-9]\d{9})
 """
@@ -91,7 +92,10 @@ class SMSAPIView(APIView):
         # 短信发送间隔时间
         sms_interval = settings.RONGLIANYUN["sms_interval"]
         # 调用第三方sdk发送短信
-        send_sms(settings.RONGLIANYUN.get("reg_tid"), mobile, datas=(code, time // 60))
+        # send_sms(settings.RONGLIANYUN.get("reg_tid"), mobile, datas=(code, time // 60)) # 使用容联云直接发短信
+
+        # 使用延迟队列celery发送短信
+        send_sms.delay(settings.RONGLIANYUN.get("reg_tid"), mobile, datas=(code, time // 60))
 
         # 记录code到redis中，并以time作为有效期
         # 使用redis提供的管道对象pipeline来优化redis的写入操作[添加/修改/删除]
