@@ -31,6 +31,7 @@ ALLOWED_HOSTS = ["*"]
 # Application definition
 
 INSTALLED_APPS = [
+    "simpleui",  # 使用第三方库美化admin界面，必须放在'django.contrib.admin'上才能生效
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -41,6 +42,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework_simplejwt",
     "corsheaders",  # cors跨域子应用 跨域配置1
+    "ckeditor",  # 富文本编辑器
 
     "home",
     "users",
@@ -113,7 +115,7 @@ CACHES = {
         "BACKEND": "django_redis.cache.RedisCache",
         # 项目上线时,需要调整这里的路径
         # "LOCATION": "redis://:密码@IP地址:端口/库编号",
-        "LOCATION": "redis://:123456@127.0.0.1:6379/0",
+        "LOCATION": "redis://:@127.0.0.1:6379/0",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
             "CONNECTION_POOL_KWARGS": {"max_connections": 100},
@@ -122,7 +124,7 @@ CACHES = {
     # 提供给admin运营站点的session存储
     "session": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://:123456@127.0.0.1:6379/1",
+        "LOCATION": "redis://:@127.0.0.1:6379/1",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
             "CONNECTION_POOL_KWARGS": {"max_connections": 100},
@@ -165,9 +167,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'zh-hans'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Shanghai'
 
 USE_I18N = True
 
@@ -291,10 +293,10 @@ TENCENTCLOUD = {
     "SecretKey": "06xbzB7VabOyY3asztbkdIfqlovtLYXG",
     # 验证码API配置
     "Captcha": {
-        "endpoint": "captcha.tencentcloudapi.com", # 验证码校验服务端域名
+        "endpoint": "captcha.tencentcloudapi.com",  # 验证码校验服务端域名
         "CaptchaType": 9,  # 验证码类型，固定为9
         "CaptchaAppId": 2059674751,  # 验证码应用ID
-        "AppSecretKey": "04LwtDUlnQxumWnItAw4OPA**", # 验证码应用key
+        "AppSecretKey": "04LwtDUlnQxumWnItAw4OPA**",  # 验证码应用key
     },
 }
 
@@ -303,11 +305,10 @@ RONGLIANYUN = {
     "accId": '8a216da8701eb7c101703d8f208c0c7b',
     "accToken": '59db381a86c94013b3992f35948c9df1',
     "appId": '8a216da8701eb7c101703d8f20ea0c81',
-    "reg_tid": 1,      # 注册短信验证码的模板ID
-    "sms_expire": 300, # 短信有效期，单位：秒(s)
-    "sms_interval": 60,# 短信发送的冷却时间，单位：秒(s)
+    "reg_tid": 1,  # 注册短信验证码的模板ID
+    "sms_expire": 300,  # 短信有效期，单位：秒(s)
+    "sms_interval": 60,  # 短信发送的冷却时间，单位：秒(s)
 }
-
 
 # Celery异步任务队列框架的配置项[注意：django的配置项必须大写，所以这里的所有配置项必须全部大写]
 # 任务队列
@@ -336,10 +337,33 @@ CELERY_ACCEPT_CONTENT = ['json', 'pickle']
 # 设置定时任务（定时多次调用）的调用列表，需要单独运行SCHEDULE命令才能让celery执行定时任务：celery -A mycelery.main beat，当然worker还是要启动的
 # https://docs.celeryproject.org/en/stable/userguide/periodic-tasks.html
 from celery.schedules import crontab
+
 CELERY_BEAT_SCHEDULE = {
     "user-add": {  # 定时任务的注册标记符[必须唯一的]
-        "task": "add",   # 定时任务的任务名称
+        "task": "add",  # 定时任务的任务名称
         "schedule": 10,  # 定时任务的调用时间，10表示每隔10秒调用一次add任务
         # "schedule": crontab(hour=7, minute=30, day_of_week=1),,  # 定时任务的调用时间，每周一早上7点30分调用一次add任务
     }
+}
+
+# 文本编辑器的配置文件
+# 上传文件的存储路径
+CKEDITOR_UPLOAD_PATH = "ckeditor/"
+
+# 工具条配置
+CKEDITOR_CONFIGS = {
+    'default': {
+        # 'toolbar': 'full', # full 显示全部工具
+        # 'toolbar': 'Basic', # Basic 显示基本工具
+        'toolbar': 'Custom',  # 自定义工具条的显示数量
+        'toolbar_Custom': [
+            ['Bold', 'Italic', 'Underline', 'Image', 'Styles', 'Format', 'Font', 'Fontsize'],
+            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter',
+             'JustifyRight', 'JustifyBlock'],
+            ['Link', 'Unlink', 'Table'],
+            ['RemoveFormat', 'Source']
+        ],
+        # 设置编辑器的高度
+        'height': 120,
+    },
 }
