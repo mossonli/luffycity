@@ -39,6 +39,15 @@ const routes = [
     path: '/user', // uri访问地址
     name: 'User',
     component: () => import('../views/User.vue')
+  },
+  {
+    meta: {
+      title: 'luffy2.0-课程列表',
+      keepAlive: true
+    },
+    path: '/project',
+    name: 'Course',
+    component: () => import('../views/Course.vue')
   }
 ];
 
