@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 import sys
 from pathlib import Path
+from .admin_conf import *
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -43,6 +44,8 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt",
     "corsheaders",  # cors跨域子应用 跨域配置1
     "ckeditor",  # 富文本编辑器
+    "ckeditor_uploader",
+    "stdimage",  # 生成缩略图
 
     "home",
     "users",
@@ -367,3 +370,21 @@ CKEDITOR_CONFIGS = {
         'height': 120,
     },
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
