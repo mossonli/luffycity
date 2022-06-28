@@ -14,7 +14,7 @@ class CourseDirection(BaseModel):
     recomment_home_top = models.BooleanField(default=False, verbose_name="是否推荐到首页必学栏目")
 
     class Meta:
-        db_table = "fg_course_direction"
+        db_table = "lf_course_direction"
         verbose_name = "学习方向"
         verbose_name_plural = verbose_name
 
@@ -31,7 +31,7 @@ class CourseCategory(BaseModel):
                                   db_constraint=False, verbose_name="学习方向")
 
     class Meta:
-        db_table = "fg_course_category"
+        db_table = "lf_course_category"
         verbose_name = "课程分类"
         verbose_name_plural = verbose_name
 
@@ -86,7 +86,7 @@ class Course(BaseModel):
                                 blank=True, db_constraint=False, verbose_name="授课老师")
 
     class Meta:
-        db_table = "fg_course_info"
+        db_table = "lf_course_info"
         verbose_name = "课程信息"
         verbose_name_plural = verbose_name
 
@@ -143,7 +143,7 @@ class Teacher(BaseModel):
     brief = RichTextUploadingField(max_length=1024, verbose_name="讲师描述")
 
     class Meta:
-        db_table = "fg_teacher"
+        db_table = "lf_teacher"
         verbose_name = "讲师信息"
         verbose_name_plural = verbose_name
 
@@ -187,7 +187,7 @@ class CourseChapter(BaseModel):
                                verbose_name="课程名称")
 
     class Meta:
-        db_table = "fg_course_chapter"
+        db_table = "lf_course_chapter"
         verbose_name = "课程章节"
         verbose_name_plural = verbose_name
 
@@ -226,7 +226,7 @@ class CourseLesson(BaseModel):
                                verbose_name="课程")
 
     class Meta:
-        db_table = "fg_course_lesson"
+        db_table = "lf_course_lesson"
         verbose_name = "课程课时"
         verbose_name_plural = verbose_name
 
