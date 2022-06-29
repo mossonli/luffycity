@@ -9,3 +9,10 @@ class CourseDirectionModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = CourseDirection
         fields = ["id", "name"]
+
+
+class CourseCategoryModelSerializer(serializers.ModelSerializer):
+    """课程分类的序列化器"""
+    class Meta:
+        model = CourseCategory
+        fields = ["id", "name"]
