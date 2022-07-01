@@ -15,7 +15,7 @@ const user = reactive({
   login(res) {
     // 用户登录
     console.log('denglu');
-    return http.post('/users/login', {
+    return http.post('/users/login/', {
       // 滑动验证码的参数
       ticket: res.ticket,
       randstr: res.randstr,

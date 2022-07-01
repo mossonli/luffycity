@@ -51,6 +51,7 @@ class TencentCloudAPI(object):
                 # 验证码应用key
                 "AppSecretKey": Captcha["AppSecretKey"],
             }
+            print("TencentCloudAPI", params)
             # 发送请求
             req.from_json_string(json.dumps(params))
             # 获取腾讯云的响应结果
@@ -60,4 +61,5 @@ class TencentCloudAPI(object):
             return result and result.get("CaptchaCode") == 1
 
         except Exception as err:
+            print("TencentCloudAPI err", err)
             raise TencentCloudSDKException

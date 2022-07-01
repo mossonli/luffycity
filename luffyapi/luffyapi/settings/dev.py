@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 import sys
 from pathlib import Path
 from .admin_conf import *
+from .local_settings import *
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -288,30 +289,7 @@ JWT_AUTH = {
 # django自定义认证
 AUTHENTICATION_BACKENDS = ['luffyapi.utils.authenticate.CustomAuthBackend', ]
 
-# 腾讯云API接口配置
-TENCENTCLOUD = {
-    # 腾讯云访问秘钥ID
-    "SecretId": "AKIDSggmeI7z2qSUHoaf18zb4JKdZv61PEZf",
-    # 腾讯云访问秘钥key
-    "SecretKey": "06xbzB7VabOyY3asztbkdIfqlovtLYXG",
-    # 验证码API配置
-    "Captcha": {
-        "endpoint": "captcha.tencentcloudapi.com",  # 验证码校验服务端域名
-        "CaptchaType": 9,  # 验证码类型，固定为9
-        "CaptchaAppId": 2059674751,  # 验证码应用ID
-        "AppSecretKey": "04LwtDUlnQxumWnItAw4OPA**",  # 验证码应用key
-    },
-}
 
-# 容联云短信
-RONGLIANYUN = {
-    "accId": '8a216da8701eb7c101703d8f208c0c7b',
-    "accToken": '59db381a86c94013b3992f35948c9df1',
-    "appId": '8a216da8701eb7c101703d8f20ea0c81',
-    "reg_tid": 1,  # 注册短信验证码的模板ID
-    "sms_expire": 300,  # 短信有效期，单位：秒(s)
-    "sms_interval": 60,  # 短信发送的冷却时间，单位：秒(s)
-}
 
 # Celery异步任务队列框架的配置项[注意：django的配置项必须大写，所以这里的所有配置项必须全部大写]
 # 任务队列
@@ -371,19 +349,6 @@ CKEDITOR_CONFIGS = {
     },
 }
 
-# 阿里云 OSS 存储
-OSS_BUCKET_NAME = "mosson-online"  # oss 创建的 BUCKET 名称
-OSS_ENDPOINT = "oss-cn-beijing.aliyuncs.com"  # 访问域名, 根据服务器上的实际配置修改
-OSS_ACCESS_KEY_ID = "LTAI5tQq9RizqXBLJbsWduo"
-OSS_ACCESS_KEY_SECRET = "F3hLy8QEupZR6qXuBcJJTku6K52NC6"
-
-# 添加下面配置后 Django admin 后台上传的 ImageField, FileField 类型的字段都会被自动上传到 oss 的服务器中, 访问路径也会自动替换
-# 如果注释掉的话 oss 的配置会失效, 上传文件会存储到本地, 且访问路径也会变成本地
-DEFAULT_FILE_STORAGE = 'django_oss_storage.backends.OssMediaStorage'
-"""
-注意：上面的配置完成以后，将来django中所有上传下载的文件都会默认从OSS对象存储中操作。所以本地原来保存的图片等静态资源再访问就无效了。
-所以我们需要把uploads这个目录下的所有文件信息，手动上传到当前项目配置的OSS Bucket存储库中。
-"""
 
 
 

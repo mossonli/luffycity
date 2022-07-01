@@ -8,6 +8,7 @@ class LoginAPIView(ObtainJSONWebToken):
     """用户登录视图"""
     def post(self, request, *args, **kwargs):
         # 校验用户操作验证码成功以后的ticket临时票据
+        print("requests data ====", request.data)
         try:
             api = TencentCloudAPI()
             result = api.captcha(
@@ -15,6 +16,9 @@ class LoginAPIView(ObtainJSONWebToken):
                 request.data.get("randstr"),
                 request._request.META.get("REMOTE_ADDR"), # 客户端IP
             )
+            print("ticket",  request.data.get("ticket"))
+            print("randstr",  request.data.get("randstr"))
+            print("REMOTE_ADDR",  request._request.META.get("REMOTE_ADDR"))
 
             if result:
                 # 验证通过
@@ -27,6 +31,7 @@ class LoginAPIView(ObtainJSONWebToken):
                 raise TencentCloudSDKException
 
         except TencentCloudSDKException as err:
+            print("error ", err)
             return Response({"errmsg": "验证码校验失败！"}, status=status.HTTP_400_BAD_REQUEST)
 
 

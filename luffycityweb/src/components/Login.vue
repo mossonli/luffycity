@@ -40,7 +40,6 @@ import '../utils/TCaptcha';
 import settings from '../settings';
 
 const emit = defineEmits(['successhandle']);
-
 const store = useStore();
 
 // 显示验证码
@@ -60,6 +59,7 @@ const show_captcha = () => {
 
 // 登录处理
 const loginhandler = res => {
+  console.log('====loginhandler');
   // 验证数据
   if (user.account.length < 1 || user.password.length < 1) {
     // 错误提示
@@ -98,11 +98,11 @@ const loginhandler = res => {
       let payload_data = JSON.parse(atob(payload)); // 用户信息
       console.log(payload_data);
       store.commit('login', payload_data);
-
       emit('successhandle');
     })
     .catch(error => {
       ElMessage.error('登录失败！');
+      emit('successhandle');
     });
 };
 </script>

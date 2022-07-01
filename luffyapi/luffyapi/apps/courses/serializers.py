@@ -1,6 +1,6 @@
 #! -*- coding:utf-8 -*-
 from rest_framework import serializers
-from .models import CourseDirection
+from .models import CourseDirection, CourseCategory
 
 
 class CourseDirectionModelSerializer(serializers.ModelSerializer):
