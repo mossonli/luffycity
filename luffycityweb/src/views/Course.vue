@@ -61,17 +61,27 @@
           <div class="other r clearfix"><a class="course-line l" href="" target="_blank">学习路线</a></div>
         </div>
         <ul class="course-list clearfix">
-          <li class="course-card">
+          <li class="course-card" v-for="course_info in course.course_list" v-bind:key="course_info">
             <a target="_blank" href="">
-              <div class="img"><img src="../assets/course-1.png" alt="" /></div>
-              <p class="title ellipsis2">全面的Docker 系统性入门+进阶实践（2021最新版）</p>
+              <div class="img"><img :src="course_info.course_cover" alt="" /></div>
+              <p class="title ellipsis2">{{ course_info.name }}</p>
               <p class="one">
-                <span>进阶 · 611人报名</span>
-                <span class="discount r"><i class="name">优惠价</i></span>
+                <span>{{ course_info.get_level_display }} · {{ course_info.students }}人报名</span>
+                <span class="discount r">
+                  <i class="name" v-if="course_info.discount.type">{{ course_info.discount.type }}</i>
+                  <i class="countdown" v-if="course_info.discount.expire">
+                    {{ parseInt(course_info.discount.expire / 86400) }}
+                    <span class="day">天</span>
+                    {{ fill0(parseInt((course_info.discount.expire / 3600) % 24)) }}:{{ fill0(parseInt((course_info.discount.expire / 60) % 60)) }}:{{
+                      fill0(parseInt(course_info.discount.expire % 60))
+                    }}
+                  </i>
+                </span>
               </p>
               <p class="two clearfix">
-                <span class="price l red bold">￥428.00</span>
-                <span class="origin-price l delete-line">￥488.00</span>
+                <span class="price l red bold" v-if="course_info.discount.price">￥{{ parseFloat(course_info.discount.price).toFixed(2) }}</span>
+                <span class="price l red bold" v-else>￥{{ parseFloat(course_info.price).toFixed(2) }}</span>
+                <span class="origin-price l delete-line" v-if="course_info.discount.price">￥{{ parseFloat(course_info.price).toFixed(2) }}</span>
                 <span class="add-shop-cart r">
                   <img class="icon imv2-shopping-cart" src="../assets/cart2.svg" />
                   加购物车
@@ -79,7 +89,7 @@
               </p>
             </a>
           </li>
-          <li class="course-card">
+          <!-- <li class="course-card">
             <a target="_blank" href="">
               <div class="img"><img src="../assets/course-2.png" alt="" /></div>
               <p class="title ellipsis2">Flink+ClickHouse 玩转企业级实时大数据开发，助你实现弯道超车</p>
@@ -156,7 +166,7 @@
                 </span>
               </p>
             </a>
-          </li>
+          </li> -->
         </ul>
         <div class="page">
           <span class="disabled_page">首页</span>
@@ -180,6 +190,7 @@ import Header from '../components/Header.vue';
 import Footer from '../components/Footer.vue';
 
 import course from '../api/course';
+import { fill0 } from '../utils/func';
 // 获取课程学习方向
 course.get_course_direction().then(response => {
   course.direction_list = response.data;
@@ -195,11 +206,30 @@ const get_category = () => {
 };
 get_category();
 
+const get_course_list = () => {
+  // 获取课程列表
+  course.get_course_list().then(response => {
+    course.course_list = response.data;
+  });
+};
+get_course_list();
+
 watch(
-  // 监听当前学习方向，在改变时，更新对应方向下的课程分类
+  // 监听当前学习方向，在改变时，更新对应方向下的课程分类与课程信息
   () => course.current_direction,
   () => {
+    // 重置当前选中的课程分类
+    course.current_category = 0;
     get_category();
+    get_course_list();
+  }
+);
+
+watch(
+  // 监听切换不同的课程分类，在改变时，更新对应分类下的课程信息
+  () => course.current_category,
+  () => {
+    get_course_list();
   }
 );
 </script>
