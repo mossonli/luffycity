@@ -10,8 +10,8 @@
           </div>
           <div class="actual-header-search">
             <div class="search-inner">
-              <input class="actual-search-input" placeholder="搜索感兴趣的实战课程内容" type="text" autocomplete="off" />
-              <img class="actual-search-button" src="../assets/search.svg" />
+              <input class="actual-search-input" v-model="course.text" placeholder="搜索感兴趣的实战课程内容" type="text" autocomplete="off" />
+              <img class="actual-search-button" src="../assets/search.svg" @click.prevent.stop="get_course_list" />
             </div>
             <div class="actual-searchtags"></div>
             <div class="search-hot">
@@ -211,7 +211,13 @@ get_category();
 
 const get_course_list = () => {
   // 获取课程列表
-  course.get_course_list().then(response => {
+  let ret = null; // 预设一个用于保存服务端返回的数据
+  if (course.text) {
+    ret = course.search_course();
+  } else {
+    ret = course.get_course_list();
+  }
+  ret.then(response => {
     course.course_list = response.data.results;
     // 总数据量
     course.count = response.data.count;
