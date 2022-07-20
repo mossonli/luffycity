@@ -74,7 +74,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            BASE_DIR/"templates", # BASE_DIR 是apps的父级目录，是主应用目录，templates需要手动创建
+            BASE_DIR / "templates",  # BASE_DIR 是apps的父级目录，是主应用目录，templates需要手动创建
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -146,14 +146,21 @@ CACHES = {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
             "CONNECTION_POOL_KWARGS": {"max_connections": 100},
         }
-    }
+    },
+    # 提供存储搜索热门关键字
+    "hot_word": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://:@127.0.0.1:6379/3",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    },
 }
 
 # 设置用户登录admin站点时,记录登录状态的session保存到redis缓存中
 SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 # 设置session保存的位置对应的缓存配置项
 SESSION_CACHE_ALIAS = "session"
-
 
 # haystack连接elasticsearch的配置信息
 HAYSTACK_CONNECTIONS = {
@@ -169,7 +176,6 @@ HAYSTACK_CONNECTIONS = {
 
 # 当mysqlORM操作数据库改变时，自动更新es的索引，否则es的索引会找不到新增的数据
 HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -310,8 +316,6 @@ JWT_AUTH = {
 # django自定义认证
 AUTHENTICATION_BACKENDS = ['luffyapi.utils.authenticate.CustomAuthBackend', ]
 
-
-
 # Celery异步任务队列框架的配置项[注意：django的配置项必须大写，所以这里的所有配置项必须全部大写]
 # 任务队列
 CELERY_BROKER_URL = 'redis://:@127.0.0.1:6379/14'
@@ -369,19 +373,3 @@ CKEDITOR_CONFIGS = {
         'height': 120,
     },
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
