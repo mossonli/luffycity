@@ -233,6 +233,10 @@ watch(
   // 监听当前学习方向，在改变时，更新对应方向下的课程分类与课程信息
   () => course.current_direction,
   () => {
+    // 重置搜索文本框
+    course.text = '';
+    // 重置页码
+    course.page = 1;
     // 重置排序条件
     course.ordering = '-id';
     // 重置当前选中的课程分类
@@ -246,6 +250,10 @@ watch(
   // 监听切换不同的课程分类，在改变时，更新对应分类下的课程信息
   () => course.current_category,
   () => {
+    // 重置搜索文本框
+    course.text = '';
+    // 重置页码
+    course.page = 1;
     // 重置排序条件
     course.ordering = '-id';
     get_course_list();
@@ -255,6 +263,8 @@ watch(
   // 监听课程切换不同的排序条件
   () => course.ordering,
   () => {
+    // 重置页码
+    course.page = 1;
     get_course_list();
   }
 );

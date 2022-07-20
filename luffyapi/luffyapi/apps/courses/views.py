@@ -95,13 +95,16 @@ class HotWordAPIView(APIView):
     """搜索热词"""
     def get(self, request):
         redis = get_redis_connection("hot_word")
+        print(redis)
         # 获取最近指定天数的热词的key
         date_list = []
         for i in range(0, constants.HOT_WORD_EXPIRE):
             day = datetime.now() - timedelta(days=i)
-            key = f"{constants.DEFAULT_HOT_WORD}:{day.year}:{day.month}:{day.day}"
+            full_month = day.month if day.month > 10 else f"0{day.month}"
+            full_day = day.day if day.day > 10 else f"0{day.day}"
+            key = f"{constants.DEFAULT_HOT_WORD}:{day.year}:{full_month}:{full_day}"
             date_list.append(key)
-
+        print("date_list", date_list)
         # 先删除原有的统计最近几天的热搜词的有序统计集合
         redis.delete(constants.DEFAULT_HOT_WORD)
         # ZUNIONSTORE hot_word 7 "hot_word:2021:11:22" "hot_word:2021:11:21"  "hot_word:2021:11:20" "hot_word:2021:11:19" "hot_word:2021:11:18" "hot_word:2021:11:17" "hot_word:2021:11:16"
@@ -109,5 +112,6 @@ class HotWordAPIView(APIView):
         redis.zunionstore(constants.DEFAULT_HOT_WORD, date_list, aggregate="sum")
         # 按分数store进行倒序显示排名靠前的指定数量的热词
         word_list = redis.zrevrange(constants.DEFAULT_HOT_WORD, 0, constants.HOT_WORD_LENGTH-1)
+        print(word_list)
         return Response(word_list)
 
