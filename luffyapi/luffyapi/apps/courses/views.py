@@ -2,19 +2,20 @@ import constants
 from datetime import datetime, timedelta
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.generics import ListAPIView
+from rest_framework.generics import ListAPIView, RetrieveAPIView
 from rest_framework.filters import OrderingFilter
 from django_redis import get_redis_connection
 
 from .models import CourseDirection, CourseCategory, Course
-from .serializers import CourseDirectionModelSerializer, CourseCategoryModelSerializer, CourseInfoModelSerializer
+from .serializers import CourseDirectionModelSerializer, CourseCategoryModelSerializer, CourseInfoModelSerializer, \
+    CourseRetrieveModelSerializer
 from .paginations import CourseListPageNumberPagination
 
 
 # Create your views here.
 class CourseDirectionListAPIView(ListAPIView):
     """学习方向"""
-    queryset = CourseDirection.objects.filter(is_show=True, is_deleted=False).order_by("orders","-id")
+    queryset = CourseDirection.objects.filter(is_show=True, is_deleted=False).order_by("orders", "-id")
     serializer_class = CourseDirectionModelSerializer
 
 
@@ -93,6 +94,7 @@ class CourseSearchViewSet(HaystackViewSet):
 
 class HotWordAPIView(APIView):
     """搜索热词"""
+
     def get(self, request):
         redis = get_redis_connection("hot_word")
         print(redis)
@@ -111,7 +113,12 @@ class HotWordAPIView(APIView):
         # 根据date_list找到最近指定天数的所有集合，并完成并集计算，产生新的有序统计集合constants.DEFAULT_HOT_WORD
         redis.zunionstore(constants.DEFAULT_HOT_WORD, date_list, aggregate="sum")
         # 按分数store进行倒序显示排名靠前的指定数量的热词
-        word_list = redis.zrevrange(constants.DEFAULT_HOT_WORD, 0, constants.HOT_WORD_LENGTH-1)
+        word_list = redis.zrevrange(constants.DEFAULT_HOT_WORD, 0, constants.HOT_WORD_LENGTH - 1)
         print(word_list)
         return Response(word_list)
 
+
+class CourseRetrieveAPIView(RetrieveAPIView):
+    """课程详情信息"""
+    queryset = Course.objects.filter(is_show=True, is_deleted=False).all()
+    serializer_class = CourseRetrieveModelSerializer
