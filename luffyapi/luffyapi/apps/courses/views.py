@@ -127,12 +127,14 @@ class CourseRetrieveAPIView(RetrieveAPIView):
 class CourseChapterListAPIView(ListAPIView):
     """课程章节列表"""
     serializer_class = CourseChapterModelSerializer
+
     def get_queryset(self):
         """列表页数据"""
         course = int(self.kwargs.get("course", 0))
         try:
             ret = Course.objects.filter(pk=course).all()
-        except:
+            print("course chapter list ", ret)
+        except Exception as e:
             return []
-        queryset = CourseChapter.objects.filter(course=course,is_show=True, is_deleted=False).order_by("orders", "id")
+        queryset = CourseChapter.objects.filter(course=course, is_show=True, is_deleted=False).order_by("orders", "id")
         return queryset.all()
