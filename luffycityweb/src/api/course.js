@@ -7,6 +7,7 @@ const course = reactive({
   direction_list: [], // 学习方向列表
   category_list: [], // 课程分类列表
   course_list: [], // 课程列表数据
+  chapter_list: [], // 课程章节列表
   ordering: '-id', // 课程排序条件
   page: 1, // 当前页码，默认为1
   size: 5, // 当前页数据量
@@ -26,6 +27,11 @@ const course = reactive({
     }
   },
   tabIndex: 1, // 课程详情页中默认展示的课程信息的选项卡
+
+  get_course_chapters() {
+    // 获取指定课程的章节
+    return http.get(`/courses/${this.course_id}/chapters`);
+  },
 
   get_course_direction() {
     // 获取学习方向信息
