@@ -124,7 +124,14 @@ class Course(BaseModel):
 
     @property
     def discount(self):
+        """ 优惠活动 """
         # todo 将来通过计算获取当前课程的折扣优惠相关的信息
+        # 获取折扣优惠相关的信息
+        now_time = datetime.now()  # 活动__结束时间 > 当前时间  and 活动__开始时间 < 当前时间（29）
+        # 获取当前课程参与的最新活动记录
+        last_activity_log = self.price_list.filter(activity__end_time__gt=now_time,
+                                                   activity__start_time__lt=now_time).order_by("-id").first()
+
         import random
         return {
             "type": ["限时优惠", "限时减免"].pop(random.randint(0, 1)),  # 优惠类型
