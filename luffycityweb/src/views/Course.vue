@@ -160,7 +160,7 @@ const get_course_list = () => {
 get_course_list();
 
 // 当热搜词被点击，进行搜索
-const search_by_hotword = hot_word => {
+const search_by_hotword = (hot_word) => {
   course.text = hot_word;
   get_course_list();
 };

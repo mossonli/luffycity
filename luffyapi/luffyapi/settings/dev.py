@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     "rest_framework",
-    "rest_framework_simplejwt",
+    # "rest_framework_simplejwt",
     "corsheaders",  # cors跨域子应用 跨域配置1
     "ckeditor",  # 富文本编辑器
     "ckeditor_uploader",
@@ -101,8 +101,8 @@ DATABASES = {
     'default': {
         # 'ENGINE': 'django.db.backends.mysql',
         'ENGINE': 'dj_db_conn_pool.backends.mysql',
-        'NAME': 'luffycity',
-        'PORT': 3308,
+        'NAME': 'luffycity',  # 数据库名称
+        'PORT': 3306,
         'HOST': '127.0.0.1',
         'USER': 'luffycity_user',
         'PASSWORD': 'luffycity',
@@ -204,7 +204,9 @@ TIME_ZONE = 'Asia/Shanghai'
 
 USE_I18N = True
 
-USE_TZ = True
+USE_L10N = True
+
+USE_TZ = False  # 关闭时区转换以后，django会默认使用TIME_ZONE作为时区。
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/

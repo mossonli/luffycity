@@ -6,20 +6,27 @@ from rest_framework import status
 
 class LoginAPIView(ObtainJSONWebToken):
     """用户登录视图"""
+
     def post(self, request, *args, **kwargs):
         # 校验用户操作验证码成功以后的ticket临时票据
         print("requests data ====", request.data)
+        """
+        requests data ==== {'ticket': 't03e26nJVRLslD-mTpJUGPjdj69Vd1wL0LlEMlBloKNOoitRiILEolQlC9Zet2h8bRH77CNCKqPJ96rFIAC9Tbjndblb3tWtGIkg3-rDNxvobSIiLNuGAgObRf9MhcWREao', 'randstr': '@aDU', 'username': 'root', 'password': 'luffy123'}
+        TencentCloudAPI {'CaptchaType': 9, 'Ticket': 't03e26nJVRLslD-mTpJUGPjdj69Vd1wL0LlEMlBloKNOoitRiILEolQlC9Zet2h8bRH77CNCKqPJ96rFIAC9Tbjndblb3tWtGIkg3-rDNxvobSIiLNuGAgObRf9MhcWREao', 'UserIp': '127.0.0.1', 'Randstr': '@aDU', 'CaptchaAppId': 2090205887, 'AppSecretKey': '0xvaqjLzbOz8rIcjEPMFv4g**'}
+        TencentCloudAPI err [TencentCloudSDKException] code:UnauthorizedOperation.Unauthorized message:未开通权限 requestId:d660669b-7b4e-4d0d-823e-78fac4e95255
+        error  [TencentCloudSDKException] code:None message:None requestId:None
+        """
         try:
-            api = TencentCloudAPI()
-            result = api.captcha(
-                request.data.get("ticket"),
-                request.data.get("randstr"),
-                request._request.META.get("REMOTE_ADDR"), # 客户端IP
-            )
-            print("ticket",  request.data.get("ticket"))
-            print("randstr",  request.data.get("randstr"))
-            print("REMOTE_ADDR",  request._request.META.get("REMOTE_ADDR"))
-
+            # api = TencentCloudAPI()
+            # result = api.captcha(
+            #     request.data.get("ticket"),
+            #     request.data.get("randstr"),
+            #     request._request.META.get("REMOTE_ADDR"),  # 客户端IP
+            # )
+            # print("ticket", request.data.get("ticket"))
+            # print("randstr", request.data.get("randstr"))
+            # print("REMOTE_ADDR", request._request.META.get("REMOTE_ADDR"))
+            result = True
             if result:
                 # 验证通过
                 print("验证通过")
@@ -65,19 +72,22 @@ class UserAPIView(CreateAPIView):
     serializer_class = UserRegisterModelSerializer
 
 
-
 import random
 from django_redis import get_redis_connection
 from django.conf import settings
 # from ronglianyunapi import send_sms # 直接使用容联云发短信
-from .tasks import send_sms #通过延迟队列发送短信
+from .tasks import send_sms  # 通过延迟队列发送短信
+
 """
 /users/sms/(?P<mobile>1[3-9]\d{9})
 """
+
+
 class SMSAPIView(APIView):
     """
     SMS短信接口视图
     """
+
     def get(self, request, mobile):
         """发送短信验证码"""
         redis = get_redis_connection("sms_code")

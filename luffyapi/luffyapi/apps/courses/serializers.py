@@ -1,6 +1,9 @@
 #! -*- coding:utf-8 -*-
 from rest_framework import serializers
+from drf_haystack.serializers import HaystackSerializer
+from django.conf import settings
 from .models import CourseDirection, CourseCategory, Course, Teacher, CourseChapter
+from .search_indexes import CourseIndex
 
 
 class CourseDirectionModelSerializer(serializers.ModelSerializer):
@@ -29,11 +32,6 @@ class CourseInfoModelSerializer(serializers.ModelSerializer):
             "students", "status", "get_status_display",
             "lessons", "pub_lessons", "price", "discount"
         ]
-
-
-from drf_haystack.serializers import HaystackSerializer
-from .search_indexes import CourseIndex
-from django.conf import settings
 
 
 class CourseIndexHaystackSerializer(HaystackSerializer):

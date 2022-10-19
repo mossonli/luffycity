@@ -57,7 +57,7 @@ class TencentCloudAPI(object):
             # 获取腾讯云的响应结果
             resp = client.DescribeCaptchaResult(req)
             # 把响应结果转换成json格式数据
-            result = json.loads( resp.to_json_string() )
+            result = json.loads(resp.to_json_string())
             return result and result.get("CaptchaCode") == 1
 
         except Exception as err:
