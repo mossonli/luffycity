@@ -38,7 +38,8 @@ const routes = [
     },
     path: '/user', // uri访问地址
     name: 'User',
-    component: () => import('../views/User.vue')
+    component: () => import('../views/User.vue'),
+    
   },
   {
     meta: {
@@ -47,7 +48,26 @@ const routes = [
     },
     path: '/project',
     name: 'Course',
-    component: () => import('../views/Course.vue')
+    
+    children:[
+      {
+        path : "child",
+        name : "Child",
+        component:()=> import('../views/Child.vue'),
+        children:[
+          {
+            path:"/",
+            redirect:"activity"
+          },
+          {
+            path:"activity",
+            name:"Acitivity",
+            component:()=>import('../views/Activity.vue')
+          }
+        ]
+      }
+    ],
+    component: () => import('../views/Course.vue'),
   },
   {
     meta: {

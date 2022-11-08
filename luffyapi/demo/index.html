@@ -31,50 +31,50 @@
     <script src="https://cdn.staticfile.org/vue-router/2.7.0/vue-router.min.js"></script>
 </head>
 <body>
-<div id="app">
-    <div class="menu">
-        <div class="container">
-            <router-link to="/">Logo</router-link>
-            <router-link to="/home">首页</router-link>
-            <router-link to="/course">课程</router-link>
-            <router-link to="/news">资讯</router-link>
-        </div>
-    </div>
-    <div class="container">
-        <router-view></router-view>
-    </div>
+<div style="line-height: 1000px">sadasdads</div>
 
-</div>
-
+<a href="">tesst<input type="text" class="c1"></a>
+<script src="https://www.w3school.com.cn/demo/myScript.js"></script>
 <script>
+    var ele = document.querySelector(".c1")
+    ele.onfocus = function (event){
+        event.preventDefault()
+        console.log("check")
+        return false
+    }
 
-    const Home = {template: '<div>首页内容...</div>'}
-    const Course = {template: '<div>课程内容..</div>'}
-    const News = {template: '<div>资讯内容..</div>'}
 
-    const router = new VueRouter({
-        routes: [
-            {
-                path: '/',
-                component: Home
-            },
-            {
-                path: '/home',
-                component: Home
-            },
-            {path: '/course', component: Course},
-            {path: '/news', component: News}
-        ],
-    });
 
-    var app = new Vue({
-        el: '#app',
-        data: {
-            name: "武沛齐",
-        },
-        methods: {},
-        router: router
-    })
+
+
+    for (var i = 0;i<titles.length;i++){
+
+         titles[i].onclick = function () {
+             // (1) 触发事件标签拥有current样式
+             for (var j = 0;j<titles.length;j++){
+                 titles[j].classList.remove("current")
+             }
+
+             console.log(this);
+             this.classList.add("current");
+
+             // (2) 显示点击title对应的详情内容
+             var index = this.getAttribute("index");
+             // console.log(this.getAttribute("index"));
+             // console.log(contents[index]);
+
+
+             for (var z = 0;z<contents.length;z++){
+                 contents[z].classList.add("hide");
+             }
+
+             contents[index].classList.remove("hide");
+
+         }
+
+     }
+
+
 </script>
 </body>
 </html>

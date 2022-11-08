@@ -1,7 +1,10 @@
+from django.http import HttpResponse
 from django.shortcuts import render
 
 # Create your views here.
 import constants
+from django.urls import reverse
+from requests import Response
 from rest_framework.generics import ListAPIView
 from .models import Nav, Banner
 from .serializers import NavModelSerializer, BannerModelSerializer
@@ -30,3 +33,9 @@ class BannerListAPIView(ListAPIView):
     """轮播广告视图"""
     queryset = Banner.objects.filter(is_show=True, is_deleted=False).order_by("orders", "-id")[:constants.BANNER_SIZE]
     serializer_class = BannerModelSerializer
+
+
+def month_arch(request,year, month, username=None):
+    print("=====")
+    print(reverse("tttt", args=(year, month)))
+    return HttpResponse("ok")
